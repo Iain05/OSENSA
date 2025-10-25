@@ -1,14 +1,15 @@
-Simple asyncio MQTT ping-pong backend
+Simple asyncio WebSocket ping-pong backend
 
 Requirements:
 - Python 3.8+
 - Install dependencies: pip install -r requirements.txt
 
 Usage:
-- Set MQTT_BROKER env var if broker is not localhost.
+- Set WS_PORT env var if you want to use a different port (default: 8765).
 - Run: python main.py
 
 Behavior:
-- Subscribes to topic `osensa/ping`.
-- When a message arrives it publishes `pong:<payload>` to `osensa/pong`.
-- Reconnects on failure and supports Ctrl+C to exit.
+- Starts a WebSocket server on localhost:8765
+- Accepts JSON messages with type "ping" and payload
+- Responds with JSON messages containing "pong:<payload>"
+- Supports Ctrl+C to exit gracefully

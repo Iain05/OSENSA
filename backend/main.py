@@ -1,31 +1,55 @@
 import asyncio
 import os
 import signal
-from aiomqtt import Client, MqttError
+import json
+import websockets
+from websockets.server import serve
 
-BROKER = os.getenv("MQTT_BROKER", "localhost")
-PING_TOPIC = "osensa/ping"
-PONG_TOPIC = "osensa/pong"
+WS_PORT = int(os.getenv("WS_PORT", "8765"))
 
-async def ping_pong(stop_event: asyncio.Event):
-    """Connect to broker, subscribe to PING_TOPIC and reply to PONG_TOPIC with a simple "pong:<payload>"."""
-    reconnect_delay = 1
-    while not stop_event.is_set():
-        try:
-            async with Client(BROKER) as client:
-                reconnect_delay = 1
-                async with client.unfiltered_messages() as messages:
-                    await client.subscribe(PING_TOPIC)
-                    async for message in messages:
-                        payload = message.payload.decode(errors="ignore")
-                        print(f"Received ping on {message.topic}: {payload}")
-                        await client.publish(PONG_TOPIC, f"pong:{payload}")
-                        if stop_event.is_set():
-                            break
-        except MqttError as e:
-            print(f"MQTT error: {e}. Reconnecting in {reconnect_delay}s...")
-            await asyncio.sleep(reconnect_delay)
-            reconnect_delay = min(reconnect_delay * 2, 30)
+# Store connected clients
+connected_clients = set()
+
+async def handle_client(websocket, path):
+    """Handle a WebSocket client connection."""
+    print(f"Client connected from {websocket.remote_address}")
+    connected_clients.add(websocket)
+    
+    try:
+        async for message in websocket:
+            try:
+                data = json.loads(message)
+                if data.get("type") == "ORDER":
+                    payload = data.get("payload", "")
+                    print(f"Received order: {payload}")
+
+                    # Send order response
+                    response = {
+                        "type": "FOOD",
+                        "payload": f"FOOD: {payload}",
+                        "timestamp": asyncio.get_event_loop().time()
+                    }
+                    await websocket.send(json.dumps(response))
+                    
+            except json.JSONDecodeError:
+                print(f"Invalid JSON received: {message}")
+            except Exception as e:
+                print(f"Error processing message: {e}")
+                
+    except websockets.exceptions.ConnectionClosed:
+        print(f"Client {websocket.remote_address} disconnected")
+    except Exception as e:
+        print(f"Error handling client {websocket.remote_address}: {e}")
+    finally:
+        connected_clients.discard(websocket)
+
+async def order_food_server(stop_event: asyncio.Event):
+    """Start the WebSocket server for food order communication."""
+    print(f"Starting WebSocket server on port {WS_PORT}")
+    
+    async with serve(handle_client, "localhost", WS_PORT):
+        print(f"WebSocket server running on ws://localhost:{WS_PORT}")
+        await stop_event.wait()  # Wait until stop event is set
 
 async def main():
     loop = asyncio.get_running_loop()
@@ -39,10 +63,11 @@ async def main():
         try:
             loop.add_signal_handler(sig, _stop)
         except NotImplementedError:
-            # add_signal_handler may not be implemented on some platforms
+            # Signal handlers are not implemented on Windows for asyncio
             pass
 
-    await ping_pong(stop_event)
+
+    await order_food_server(stop_event)
 
 if __name__ == "__main__":
     try:
