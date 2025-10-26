@@ -82,7 +82,7 @@
 </script>
 
 <div class="container">
-	<h1>WebSocket Food Order</h1>
+	<h1>The Mosquitto Diner</h1>
 	
 	<div class="status">
 		<span class="status-indicator" class:connected class:disconnected={!connected}></span>

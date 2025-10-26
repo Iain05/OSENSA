@@ -1,6 +1,10 @@
 from paho.mqtt import client as mqtt
 import asyncio
 import json
+import random
+
+# global event loop reference so paho callbacks (which run in another thread) can schedule coroutines
+EVENT_LOOP = None
 
 CLIENT_ID = "food_order_server"
 PORT = 9001
@@ -9,7 +13,7 @@ TOPIC = "ORDER"
 
 decoder = json.JSONDecoder()
 
-def handle_order(client, payload):
+async def handle_order(client, payload):
     order = decoder.decode(payload)
     food = order.get("food")
     table = order.get("table")
@@ -17,7 +21,12 @@ def handle_order(client, payload):
         print(f"Invalid order received: {payload}")
         return
     print(f"Order received: {food} for table {table}")
+    wait_time = random.uniform(3, 10)
+    print(f"Preparing {food} for table {table} (will take {wait_time:.1f}s)")
+    await asyncio.sleep(wait_time)
     client.publish("FOOD", json.dumps({"food": food, "table": table}))
+    print(f"Delivered {food} to table {table}")
+
 
 def on_connect(client, userdata, flags, rc, properties=None):
     print(f"Connected to {BROKER}:{PORT} (rc={rc})")
@@ -32,7 +41,14 @@ def on_message(client, userdata, msg):
         payload = repr(msg.payload)
     print(f"Received -> topic: {msg.topic} | payload: {payload}")
     if msg.topic == TOPIC:
-        handle_order(client, payload)
+        # schedule the async handler on the main asyncio loop so multiple orders run concurrently
+        try:
+            if EVENT_LOOP is None:
+                asyncio.run(handle_order(client, payload))
+            else:
+                asyncio.run_coroutine_threadsafe(handle_order(client, payload), EVENT_LOOP)
+        except Exception as e:
+            print(f"Failed to schedule order handling: {e}")
 
 
 def on_disconnect(client, userdata, rc):
@@ -48,7 +64,6 @@ def on_subscribe(client, userdata, mid, granted_qos, properties=None):
 
 
 async def main():
-    # use an explicit client id and a widely-compatible protocol
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, client_id=CLIENT_ID, clean_session=True, transport="websockets")
     client.enable_logger()
     client.on_connect = on_connect
@@ -63,6 +78,10 @@ async def main():
     except Exception as e:
         print(f"Failed to connect to broker: {e}")
         return
+
+    # save the running asyncio loop so callbacks from paho (other thread) can schedule coroutines
+    global EVENT_LOOP
+    EVENT_LOOP = asyncio.get_running_loop()
 
     client.loop_start()
 
