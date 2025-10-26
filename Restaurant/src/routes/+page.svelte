@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import mqtt from 'mqtt';
+	import Table from '$lib/Table.svelte';
 	
 	type MessageType = 'info' | 'success' | 'sent' | 'warning' | 'error';
 	
@@ -13,10 +14,8 @@
 	let client: mqtt.MqttClient | null = null;
 	let connected: boolean = false;
 	let messages: Message[] = [];
-	let pingCount: number = 0;
-
-	// inputs for 4 tables (indexed 0..3, displayed as tables 1..4)
-	let orderInputs: string[] = ['', '', '', ''];
+	let tableRefs: Array<any> = [];
+	const tables = [1, 2, 3, 4];
 
 	
 	onMount(() => {
@@ -25,7 +24,6 @@
 		client.on('connect', () => {
 			connected = true;
 			addMessage('Connected to MQTT broker', 'success');
-			// subscribe to all topics so we receive messages from the broker
 			client?.subscribe('#', (err) => {
 				if (err) {
 					addMessage('Failed to subscribe to topics', 'error');
@@ -35,11 +33,27 @@
 			});
 		});
 
-		// callback for incoming messages
 		client.on('message', (topic: string, message: Buffer) => {
 			const payload = message.toString();
 			if (topic === 'FOOD') {
-				addMessage(`Received: FOOD: ${payload}`, 'success');
+				try {
+					const data = JSON.parse(payload);
+					const table = Number(data.table);
+					const foodName = String(data.food);
+
+					// bad table number
+					if (Number.isNaN(table) || table < 1 || table > tables.length) {
+						addMessage(`Received FOOD for unknown table: ${payload}`, 'warning');
+						return;
+					}
+
+					const ref = tableRefs[table - 1];
+					ref.addItem(foodName);
+					addMessage(`Received FOOD for table ${table}: ${foodName}`, 'success');
+
+				} catch (e) {
+					addMessage(`Bad FOOD payload: ${payload}`, 'error');
+				}
 			} else {
 				addMessage(`Received: ${topic}: ${payload}`, 'info');
 			}
@@ -53,21 +67,15 @@
 		client.on('error', (err: Error) => {
 			addMessage(`MQTT error: ${err.message}`, 'error');
 		});
-	})
+	});
 
-	function sendOrder() {
-		console.log('Sending order...');
-		if (client && connected) {
-			client.publish('ORDER', JSON.stringify({ food: 'Pizza', table: 1 }));
-		}
-	}
-
-	// send an order for a specific table (tableIndex 0..3)
-	function sendTableOrder(tableIndex: number) {
-		const table = tableIndex + 1;
-		const food = orderInputs[tableIndex] || 'Unknown';
+	function handlePlaceOrder(event: CustomEvent<{ table: number; food: string }>) {
+		const { table, food } = event.detail;
 		if (client && connected) {
 			client.publish('ORDER', JSON.stringify({ food, table }));
+			addMessage(`Sent ORDER for table ${table}: ${food}`, 'sent');
+		} else {
+			addMessage(`Cannot send ORDER, not connected`, 'warning');
 		}
 	}
 
@@ -89,18 +97,10 @@
 		<span>{connected ? 'Connected' : 'Disconnected'}</span>
 	</div>
 
-	<div class="controls">
-		<button on:click={sendOrder} disabled={!connected} class="order-button">
-			Send Order
-		</button>
-	</div>
-
 	<div class="tables">
-		{#each [0,1,2,3] as i}
+		{#each tables as table}
 			<div class="table">
-				<h4>Table {i + 1}</h4>
-				<input type="text" bind:value={orderInputs[i]} placeholder="Food item" />
-				<button on:click={() => sendTableOrder(i)} disabled={!connected}>Place Order</button>
+				<Table tableNumber={table} bind:this={tableRefs[table - 1]} on:placeOrder={handlePlaceOrder} {connected} />
 			</div>
 		{/each}
 	</div>
@@ -121,8 +121,8 @@
 <style>
 	.container { padding: 1rem; font-family: system-ui, sans-serif; }
 	.tables { display: flex; gap: 1rem; margin: 1rem 0; }
-	.table { border: 1px solid #ccc; padding: 0.5rem; width: 12rem; border-radius: 6px; }
-	.table h4 { margin: 0 0 0.5rem 0; }
-	.table input { width: 100%; box-sizing: border-box; padding: 0.25rem; margin-bottom: 0.5rem; }
-	.table button { width: 100%; }
+	.table { border: 1px solid #ccc; padding: 0.5rem; width: 14rem; border-radius: 6px; }
+	.received { margin-top: 0.5rem; }
+	.received-list { list-style: none; padding: 0; margin: 0; max-height: 8rem; overflow: auto; }
+	.no-items { color: #888; font-size: 0.9rem; }
 </style>

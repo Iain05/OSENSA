@@ -1,5 +1,5 @@
 .container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 2rem;
     font-family: system-ui, -apple-system, sans-serif;
@@ -38,29 +38,6 @@ h1 {
     display: flex;
     gap: 1rem;
     margin-bottom: 2rem;
-}
-
-.order-button {
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.order-button {
-    background-color: #3b82f6;
-    color: white;
-}
-
-.order-button:hover:not(:disabled) {
-    background-color: #2563eb;
-}
-
-.order-button:disabled {
-    background-color: #9ca3af;
-    cursor: not-allowed;
 }
 
 .messages {
