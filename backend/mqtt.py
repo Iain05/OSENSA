@@ -1,11 +1,23 @@
 from paho.mqtt import client as mqtt
 import asyncio
+import json
 
 CLIENT_ID = "food_order_server"
 PORT = 9001
 BROKER = "localhost"
-TOPIC = "ORDER"  # subscribe to ORDER topic
+TOPIC = "ORDER"
 
+decoder = json.JSONDecoder()
+
+def handle_order(client, payload):
+    order = decoder.decode(payload)
+    food = order.get("food")
+    table = order.get("table")
+    if not food or not table:
+        print(f"Invalid order received: {payload}")
+        return
+    print(f"Order received: {food} for table {table}")
+    client.publish("FOOD", json.dumps({"food": food, "table": table}))
 
 def on_connect(client, userdata, flags, rc, properties=None):
     print(f"Connected to {BROKER}:{PORT} (rc={rc})")
@@ -19,6 +31,8 @@ def on_message(client, userdata, msg):
         # fallback to raw representation
         payload = repr(msg.payload)
     print(f"Received -> topic: {msg.topic} | payload: {payload}")
+    if msg.topic == TOPIC:
+        handle_order(client, payload)
 
 
 def on_disconnect(client, userdata, rc):
@@ -29,9 +43,8 @@ def on_subscribe(client, userdata, mid, granted_qos, properties=None):
     print(f"Subscribed (mid={mid}) granted_qos={granted_qos}")
 
 
-def on_log(client, userdata, level, buf):
-    # helpful debug logging from the paho client
-    print(f"MQTT log: {buf}")
+# def on_log(client, userdata, level, buf):
+    # print(f"MQTT log: {buf}")
 
 
 async def main():
@@ -42,10 +55,7 @@ async def main():
     client.on_message = on_message
     client.on_disconnect = on_disconnect
     client.on_subscribe = on_subscribe
-    client.on_log = on_log
-
-    # If your broker exposes the websocket on a path (e.g. /mqtt) set it here. Otherwise remove or adjust the path.
-    # client.ws_set_options(path="/mqtt")
+    # client.on_log = on_log
 
     # connect and start network loop in background thread
     try:

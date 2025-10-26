@@ -15,7 +15,10 @@
 	let messages: Message[] = [];
 	let pingCount: number = 0;
 
+	// inputs for 4 tables (indexed 0..3, displayed as tables 1..4)
+	let orderInputs: string[] = ['', '', '', ''];
 
+	
 	onMount(() => {
 		client = mqtt.connect('ws://localhost:9001');
 
@@ -35,11 +38,7 @@
 		// callback for incoming messages
 		client.on('message', (topic: string, message: Buffer) => {
 			const payload = message.toString();
-			// Example handling: increment pingCount for PING messages
-			if (topic === 'PING') {
-				pingCount += 1;
-				addMessage(`Ping received (${pingCount})`, 'info');
-			} else if (topic === 'FOOD') {
+			if (topic === 'FOOD') {
 				addMessage(`Received: FOOD: ${payload}`, 'success');
 			} else {
 				addMessage(`Received: ${topic}: ${payload}`, 'info');
@@ -59,7 +58,16 @@
 	function sendOrder() {
 		console.log('Sending order...');
 		if (client && connected) {
-			client.publish('ORDER', 'Pizza');
+			client.publish('ORDER', JSON.stringify({ food: 'Pizza', table: 1 }));
+		}
+	}
+
+	// send an order for a specific table (tableIndex 0..3)
+	function sendTableOrder(tableIndex: number) {
+		const table = tableIndex + 1;
+		const food = orderInputs[tableIndex] || 'Unknown';
+		if (client && connected) {
+			client.publish('ORDER', JSON.stringify({ food, table }));
 		}
 	}
 
@@ -86,10 +94,21 @@
 			Send Order
 		</button>
 	</div>
+
+	<div class="tables">
+		{#each [0,1,2,3] as i}
+			<div class="table">
+				<h4>Table {i + 1}</h4>
+				<input type="text" bind:value={orderInputs[i]} placeholder="Food item" />
+				<button on:click={() => sendTableOrder(i)} disabled={!connected}>Place Order</button>
+			</div>
+		{/each}
+	</div>
+
     <div class="messages">
         <h3>Messages</h3>
         <div class="message-list">
-            {#each messages as message}
+            {#each [...messages].reverse() as message}
                 <div class="message {message.type}">
                     <span class="timestamp">[{message.timestamp}]</span>
                     <span class="text">{message.text}</span>
@@ -98,3 +117,12 @@
         </div>
     </div>
 </div>
+
+<style>
+	.container { padding: 1rem; font-family: system-ui, sans-serif; }
+	.tables { display: flex; gap: 1rem; margin: 1rem 0; }
+	.table { border: 1px solid #ccc; padding: 0.5rem; width: 12rem; border-radius: 6px; }
+	.table h4 { margin: 0 0 0.5rem 0; }
+	.table input { width: 100%; box-sizing: border-box; padding: 0.25rem; margin-bottom: 0.5rem; }
+	.table button { width: 100%; }
+</style>
