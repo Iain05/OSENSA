@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import mqtt from 'mqtt';
 	
 	type MessageType = 'info' | 'success' | 'sent' | 'warning' | 'error';
 	
@@ -9,67 +10,56 @@
 		timestamp: string;
 	}
 	
-	let websocket: WebSocket | null = null;
+	let client: mqtt.MqttClient | null = null;
 	let connected: boolean = false;
 	let messages: Message[] = [];
 	let pingCount: number = 0;
 
-	onMount(() => {
-		connectWebSocket();
-		return () => {
-			if (websocket) {
-				websocket.close();
-			}
-		};
-	});
 
-	function connectWebSocket() {
-		try {
-			websocket = new WebSocket('ws://localhost:8765');
-			
-			websocket.onopen = () => {
-				connected = true;
-				addMessage('Connected to server', 'info');
-			};
-			
-			websocket.onmessage = (event) => {
-				try {
-					const data = JSON.parse(event.data);
-					if (data.type === 'FOOD') {
-						addMessage(`Received: ${data.payload}`, 'success');
-					}
-				} catch (error) {
-					const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-					addMessage(`Error parsing message: ${errorMessage}`, 'error');
+	onMount(() => {
+		client = mqtt.connect('ws://localhost:9001');
+
+		client.on('connect', () => {
+			connected = true;
+			addMessage('Connected to MQTT broker', 'success');
+			// subscribe to all topics so we receive messages from the broker
+			client?.subscribe('#', (err) => {
+				if (err) {
+					addMessage('Failed to subscribe to topics', 'error');
+				} else {
+					addMessage('Subscribed to all topics', 'info');
 				}
-			};
-			
-			websocket.onclose = () => {
-				connected = false;
-				addMessage('Disconnected from server', 'warning');
-			};
-			
-			websocket.onerror = (error) => {
-				addMessage('WebSocket error occurred', 'error');
-				console.error('WebSocket error:', error);
-			};
-		} catch (error) {
-			const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-			addMessage(`Connection error: ${errorMessage}`, 'error');
-		}
-	}
+			});
+		});
+
+		// callback for incoming messages
+		client.on('message', (topic: string, message: Buffer) => {
+			const payload = message.toString();
+			// Example handling: increment pingCount for PING messages
+			if (topic === 'PING') {
+				pingCount += 1;
+				addMessage(`Ping received (${pingCount})`, 'info');
+			} else if (topic === 'FOOD') {
+				addMessage(`Received: FOOD: ${payload}`, 'success');
+			} else {
+				addMessage(`Received: ${topic}: ${payload}`, 'info');
+			}
+		});
+
+		client.on('close', () => {
+			connected = false;
+			addMessage('Disconnected from MQTT broker', 'warning');
+		});
+
+		client.on('error', (err: Error) => {
+			addMessage(`MQTT error: ${err.message}`, 'error');
+		});
+	})
 
 	function sendOrder() {
-		if (websocket && connected) {
-			pingCount++;
-			const message = {
-				type: 'ORDER',
-				payload: `Order ${pingCount}`
-			};
-			websocket.send(JSON.stringify(message));
-			addMessage(`Sent: ORDER: "${message.payload}"`, 'sent');
-		} else {
-			addMessage('Not connected to server', 'error');
+		console.log('Sending order...');
+		if (client && connected) {
+			client.publish('ORDER', 'Pizza');
 		}
 	}
 
