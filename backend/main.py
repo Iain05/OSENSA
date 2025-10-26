@@ -32,11 +32,21 @@ async def handle_order(client, payload):
     -------
     None
     """
-    order = decoder.decode(payload)
+    try:
+        order = decoder.decode(payload)
+    except json.JSONDecodeError:
+        error(f"Invalid order received: {payload}")
+        return
     food = order.get("food")
     table = order.get("table")
     if not food or not table:
         error(f"Invalid order received: {payload}")
+        return
+    if not isinstance(table, int):
+        error(f"Invalid order received (table must be int): {payload}")
+        return
+    if not isinstance(food, str) or food.strip() == "":
+        error(f"Invalid order received (food must be non-empty string): {payload}")
         return
 
     order_log(f"Order received: {food} for table {table}")
