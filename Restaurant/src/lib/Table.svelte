@@ -14,14 +14,15 @@
 	}
 
 	function placeOrder() {
-		dispatch('placeOrder', { table: tableNumber, food: input || 'Unknown' });
+        if (!input) return;
+		dispatch('placeOrder', { table: tableNumber, food: input });
 		input = '';
 	}
 </script>
 
 <div class="table-component">
 	<h4>Table {tableNumber}</h4>
-	<input type="text" bind:value={input} placeholder="Food item" />
+	<input type="text" bind:value={input} placeholder="Food item" maxlength="50" />
 	<button on:click={placeOrder} disabled={!connected}>Place Order</button>
 
 	<div class="received">

@@ -91,6 +91,8 @@
 
 <div class="container">
 	<h1>The Mosquitto Diner</h1>
+
+	<p>Welcome to the Mosquitto Diner! Once an order is placed it will take between 3 and 10 seconds to be prepared and sent back to the customer.</p>
 	
 	<div class="status">
 		<span class="status-indicator" class:connected class:disconnected={!connected}></span>
@@ -106,7 +108,7 @@
 	</div>
 
     <div class="messages">
-        <h3>Messages</h3>
+        <h3>Debug Messages</h3>
         <div class="message-list">
             {#each [...messages].reverse() as message}
                 <div class="message {message.type}">
