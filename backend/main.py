@@ -10,7 +10,7 @@ EVENT_LOOP = None
 
 CLIENT_ID = "food_order_server"
 PORT = 9001
-BROKER = "localhost"
+BROKER = "mosquitto"
 TOPIC = "ORDER"
 
 decoder = json.JSONDecoder()

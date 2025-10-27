@@ -33,7 +33,14 @@ and manages debug messages for monitoring the system's activity.
 	 * Subscribes to all topics and handles incoming messages.
 	 */
 	onMount(() => {
-		client = mqtt.connect('ws://localhost:9001');
+		// Dynamically construct the broker URL based on the current page's hostname
+		// This allows the app to work from any IP/domain
+		const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+		const hostname = window.location.hostname; // Could be localhost, 192.168.x.x, or domain name
+		const BROKER = `${protocol}//${hostname}:9001`;
+
+		addMessage(`Connecting to MQTT broker at ${BROKER}`, 'info');
+		client = mqtt.connect(BROKER);
 
 		client.on('connect', () => {
 			connected = true;

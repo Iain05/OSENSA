@@ -4,10 +4,43 @@ services:
   mosquitto:
     image: eclipse-mosquitto:2.0
     container_name: mosquitto
+    restart: unless-stopped
     ports:
-      - "1883:1883"     # MQTT for backend
-      - "9001:9001"     # MQTT over WebSocket for frontend
+      - "9001:9001"     # MQTT over WebSocket 
     volumes:
       - ./mosquitto/config:/mosquitto/config:ro
       - ./mosquitto/data:/mosquitto/data
       - ./mosquitto/log:/mosquitto/log
+    networks:
+      - appnet
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    restart: unless-stopped
+    depends_on:
+      - mosquitto
+    environment:
+      - BROKER=mosquitto
+      - PORT=9001
+    networks:
+      - appnet
+
+  restaurant:
+    build:
+      context: ./restaurant
+      dockerfile: Dockerfile
+    container_name: restaurant
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - mosquitto
+    networks:
+      - appnet
+
+networks:
+  appnet:
+    driver: bridge
