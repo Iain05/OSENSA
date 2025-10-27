@@ -35,6 +35,7 @@
 
 		client.on('message', (topic: string, message: Buffer) => {
 			const payload = message.toString();
+			console.log(message);
 			if (topic === 'FOOD') {
 				try {
 					const data = JSON.parse(payload);
