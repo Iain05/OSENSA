@@ -1,23 +1,37 @@
+<!--
+This component represents the main page of the Mosquitto Diner app.
+It handles MQTT connections to communicate with the broker, displays tables for ordering,
+and manages debug messages for monitoring the system's activity.
+-->
+
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import mqtt from 'mqtt';
 	import Table from '$lib/Table.svelte';
 	
+	// Define message types for different kinds of notifications
 	type MessageType = 'info' | 'success' | 'sent' | 'warning' | 'error';
 	
+	// Interface for message objects
 	interface Message {
 		text: string;
 		type: MessageType;
 		timestamp: string;
 	}
 	
+	// MQTT client instance
 	let client: mqtt.MqttClient | null = null;
 	let connected: boolean = false;
 	let messages: Message[] = [];
+	// References to table components for direct manipulation
 	let tableRefs: Array<any> = [];
+	// List of table numbers in the restaurant
 	const tables = [1, 2, 3, 4];
 
-	
+	/**
+	 * Sets up the MQTT client connection on component mount.
+	 * Subscribes to all topics and handles incoming messages.
+	 */
 	onMount(() => {
 		client = mqtt.connect('ws://localhost:9001');
 
@@ -70,6 +84,10 @@
 		});
 	});
 
+	/**
+	 * Handles placing an order by publishing to the MQTT 'ORDER' topic.
+	 * @param {CustomEvent<{ table: number; food: string }>} event - The order event from a table.
+	 */
 	function handlePlaceOrder(event: CustomEvent<{ table: number; food: string }>) {
 		const { table, food } = event.detail;
 		if (client && connected) {
@@ -80,6 +98,12 @@
 		}
 	}
 
+	/**
+	 * Adds a message to the messages array with a timestamp.
+	 * Keeps only the last 20 messages to prevent overflow.
+	 * @param {string} text - The message text.
+	 * @param {MessageType} type - The type of message.
+	 */
 	function addMessage(text: string, type: MessageType): void {
 		const timestamp = new Date().toLocaleTimeString();
 		messages = [...messages, { text, type, timestamp }];
@@ -95,11 +119,13 @@
 
 	<p>Welcome to the Mosquitto Diner! Once an order is placed it will take between 3 and 10 seconds to be prepared and sent back to the customer.</p>
 	
+	<!-- Connection status indicator -->
 	<div class="status">
 		<span class="status-indicator" class:connected class:disconnected={!connected}></span>
 		<span>{connected ? 'Connected' : 'Disconnected'}</span>
 	</div>
 
+	<!-- Tables section -->
 	<div class="tables">
 		{#each tables as table}
 			<div class="table">
@@ -108,6 +134,7 @@
 		{/each}
 	</div>
 
+    <!-- Debug messages section -->
     <div class="messages">
         <h3>Debug Messages</h3>
         <div class="message-list">

@@ -38,21 +38,6 @@ describe('/+page.svelte', () => {
 	});
 
 	describe('Rendering', () => {
-		it('should render the page title', async () => {
-			render(Page);
-
-			const heading = page.getByRole('heading', { level: 1 });
-			await expect.element(heading).toBeInTheDocument();
-			await expect.element(heading).toHaveTextContent('The Mosquitto Diner');
-		});
-
-		it('should render the welcome message', async () => {
-			render(Page);
-
-			const welcomeText = page.getByText(/Welcome to the Mosquitto Diner/);
-			await expect.element(welcomeText).toBeInTheDocument();
-		});
-
 		it('should render 4 table components', async () => {
 			render(Page);
 

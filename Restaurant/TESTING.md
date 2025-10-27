@@ -28,6 +28,24 @@ npm run test:unit -- --ui
 ## Test Coverage
 
 ### Table Component Tests (`Table.svelte.test.ts`)
-
+ - Rendering
+    - Render with correct table numbers
+    - Render an input field for food items
+    - Render a Place Order button
+    - Show initially empty 'Received' section
+ - User Interactions
+    - Allow typing in input
+    - Clear input after order
+ - addItem()
+    - Add item to received list
+    - Add multiple items and display them all
 
 ### Main and MQTT Tests (`page.svelte.test.ts`)
+ - Rendering
+    - Renders 4 tables
+    - Renders debug section
+ - Connection Status
+    - Initially disconnected
+ - MQTT Interactions
+    - Handles invalid FOOD messages
+    - Publish ORDER message when placing order

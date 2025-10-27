@@ -1,3 +1,11 @@
+<!--
+Table component for managing food orders for a specific table.
+Props:
+- tableNumber: number - The number of the table.
+- connected: boolean - Whether the MQTT client is connected.
+Events:
+- placeOrder: dispatched when an order is placed, with detail { table: number; food: string }
+-->
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
