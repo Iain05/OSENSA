@@ -1,0 +1,257 @@
+2025-10-26 15:45:08 [INFO] MQTT backend running — listening for messages. Press Ctrl+C to exit.
+2025-10-26 15:45:08 [MQTT] Connected to localhost:9001 (rc=Success)
+2025-10-26 15:45:08 [MQTT] Subscribed (mid=1) granted_qos=[ReasonCode(Suback, 'Granted QoS 0')]
+2025-10-26 15:45:44 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":1}
+2025-10-26 15:45:44 [ORDER] Order received: pizza for table 1
+2025-10-26 15:45:44 [ORDER] Preparing pizza for table 1 (will take 5.2s)
+2025-10-26 15:45:49 [ORDER] Delivered pizza to table 1
+2025-10-26 16:01:31 [MQTT] Received -> topic: ORDER | payload: {"food":"test2","table":2}
+2025-10-26 16:01:31 [ORDER] Order received: test2 for table 2
+2025-10-26 16:01:31 [ORDER] Preparing test2 for table 2 (will take 8.5s)
+2025-10-26 16:01:39 [ORDER] Delivered test2 to table 2
+2025-10-26 16:22:12 [ORDER] Order received: pizza for table 5
+2025-10-26 16:22:12 [ORDER] Preparing pizza for table 5 (will take 0.1s)
+2025-10-26 16:22:12 [ORDER] Delivered pizza to table 5
+2025-10-26 16:22:12 [ERROR] Invalid order received: {"food": "", "table": 3}
+2025-10-26 16:22:12 [MQTT] Connected to localhost:9001 (rc=0)
+2025-10-26 16:22:12 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:22:12 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:23:40 [ORDER] Order received: pizza for table 5
+2025-10-26 16:23:40 [ORDER] Preparing pizza for table 5 (will take 0.1s)
+2025-10-26 16:23:40 [ORDER] Delivered pizza to table 5
+2025-10-26 16:23:40 [ERROR] Invalid order received: {"food": "", "table": 3}
+2025-10-26 16:23:40 [MQTT] Connected to localhost:9001 (rc=0)
+2025-10-26 16:23:40 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:23:40 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:24:47 [ORDER] Order received: pizza for table 5
+2025-10-26 16:24:47 [ORDER] Preparing pizza for table 5 (will take 0.1s)
+2025-10-26 16:24:47 [ORDER] Delivered pizza to table 5
+2025-10-26 16:24:47 [ERROR] Invalid order received: {"food": "", "table": 3}
+2025-10-26 16:24:47 [MQTT] Connected to localhost:9001 (rc=0)
+2025-10-26 16:24:47 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:24:47 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:24:53 [ORDER] Order received: pizza for table 5
+2025-10-26 16:24:53 [ORDER] Preparing pizza for table 5 (will take 0.1s)
+2025-10-26 16:24:53 [ORDER] Delivered pizza to table 5
+2025-10-26 16:24:53 [ERROR] Invalid order received: {"food": "", "table": 3}
+2025-10-26 16:24:53 [MQTT] Connected to localhost:9001 (rc=0)
+2025-10-26 16:24:53 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:24:53 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:24:59 [ORDER] Order received: pizza for table 5
+2025-10-26 16:24:59 [ORDER] Preparing pizza for table 5 (will take 0.1s)
+2025-10-26 16:24:59 [ORDER] Delivered pizza to table 5
+2025-10-26 16:24:59 [ERROR] Invalid order received: {"food": "", "table": 3}
+2025-10-26 16:24:59 [ERROR] Invalid order received: {"food": "burger"}
+2025-10-26 16:24:59 [MQTT] Connected to localhost:9001 (rc=0)
+2025-10-26 16:24:59 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:24:59 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:25:29 [ORDER] Order received: pizza for table 5
+2025-10-26 16:25:29 [ORDER] Preparing pizza for table 5 (will take 0.1s)
+2025-10-26 16:25:29 [ORDER] Delivered pizza to table 5
+2025-10-26 16:25:29 [ERROR] Invalid order received: {"food": "", "table": 3}
+2025-10-26 16:25:29 [ERROR] Invalid order received: not a json
+2025-10-26 16:25:29 [ERROR] Invalid order received: {"food": "burger"}
+2025-10-26 16:25:29 [MQTT] Connected to localhost:9001 (rc=0)
+2025-10-26 16:25:29 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:25:29 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:25:34 [ORDER] Order received: pizza for table 5
+2025-10-26 16:25:34 [ORDER] Preparing pizza for table 5 (will take 0.1s)
+2025-10-26 16:25:34 [ORDER] Delivered pizza to table 5
+2025-10-26 16:25:34 [ERROR] Invalid order received: {"food": "", "table": 3}
+2025-10-26 16:25:34 [ERROR] Invalid order received: not a json
+2025-10-26 16:25:34 [ERROR] Invalid order received: {"food": "burger"}
+2025-10-26 16:25:34 [ORDER] Order received: burger for table not an int
+2025-10-26 16:25:34 [ORDER] Preparing burger for table not an int (will take 8.2s)
+2025-10-26 16:25:41 [ORDER] Order received: pizza for table 5
+2025-10-26 16:25:41 [ORDER] Preparing pizza for table 5 (will take 0.1s)
+2025-10-26 16:25:41 [ORDER] Delivered pizza to table 5
+2025-10-26 16:25:41 [ERROR] Invalid order received: {"food": "", "table": 3}
+2025-10-26 16:25:41 [ERROR] Invalid order received: not a json
+2025-10-26 16:25:41 [ERROR] Invalid order received: {"food": "burger"}
+2025-10-26 16:25:41 [ORDER] Order received: burger for table not an int
+2025-10-26 16:25:41 [ORDER] Preparing burger for table not an int (will take 6.5s)
+2025-10-26 16:25:47 [ORDER] Delivered burger to table not an int
+2025-10-26 16:25:47 [MQTT] Connected to localhost:9001 (rc=0)
+2025-10-26 16:25:47 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:25:47 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:26:52 [ORDER] Order received: pizza for table 5
+2025-10-26 16:26:52 [ORDER] Preparing pizza for table 5 (will take 0.1s)
+2025-10-26 16:26:52 [ORDER] Delivered pizza to table 5
+2025-10-26 16:26:52 [ERROR] Invalid order received: {"food": "", "table": 3}
+2025-10-26 16:26:52 [ERROR] Invalid order received: not a json
+2025-10-26 16:26:52 [ERROR] Invalid order received: {"food": "burger"}
+2025-10-26 16:26:52 [ERROR] Invalid order received (table must be int): {"food": "burger", "table": "not an int"}
+2025-10-26 16:26:52 [ERROR] Invalid order received (food must be non-empty string): {"food": "  ", "table": 4}
+2025-10-26 16:26:52 [MQTT] Connected to localhost:9001 (rc=0)
+2025-10-26 16:26:52 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:26:52 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:30:46 [ORDER] Order received: pizza for table 5
+2025-10-26 16:30:46 [ORDER] Preparing pizza for table 5 (will take 0.1s)
+2025-10-26 16:30:46 [ORDER] Delivered pizza to table 5
+2025-10-26 16:30:46 [ERROR] Invalid order received: {"food": "", "table": 3}
+2025-10-26 16:30:46 [ERROR] Invalid order received: not a json
+2025-10-26 16:30:46 [ERROR] Invalid order received: {"food": "burger"}
+2025-10-26 16:30:46 [ERROR] Invalid order received (table must be int): {"food": "burger", "table": "not an int"}
+2025-10-26 16:30:46 [ERROR] Invalid order received (food must be non-empty string): {"food": "  ", "table": 4}
+2025-10-26 16:30:46 [MQTT] Connected to localhost:9001 (rc=0)
+2025-10-26 16:31:02 [ORDER] Order received: pizza for table 5
+2025-10-26 16:31:02 [ORDER] Preparing pizza for table 5 (will take 0.1s)
+2025-10-26 16:31:02 [ORDER] Delivered pizza to table 5
+2025-10-26 16:31:02 [ERROR] Invalid order received: {"food": "", "table": 3}
+2025-10-26 16:31:02 [ERROR] Invalid order received: not a json
+2025-10-26 16:31:02 [ERROR] Invalid order received: {"food": "burger"}
+2025-10-26 16:31:02 [ERROR] Invalid order received (table must be int): {"food": "burger", "table": "not an int"}
+2025-10-26 16:31:02 [ERROR] Invalid order received (food must be non-empty string): {"food": "  ", "table": 4}
+2025-10-26 16:31:02 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:31:02 [ERROR] Failed to schedule order handling: asyncio.run() cannot be called from a running event loop
+2025-10-26 16:31:03 [MQTT] Connected to localhost:9001 (rc=0)
+2025-10-26 16:31:41 [ORDER] Order received: pizza for table 5
+2025-10-26 16:31:41 [ORDER] Preparing pizza for table 5 (will take 0.1s)
+2025-10-26 16:31:41 [ORDER] Delivered pizza to table 5
+2025-10-26 16:31:41 [ERROR] Invalid order received: {"food": "", "table": 3}
+2025-10-26 16:31:41 [ERROR] Invalid order received: not a json
+2025-10-26 16:31:41 [ERROR] Invalid order received: {"food": "burger"}
+2025-10-26 16:31:41 [ERROR] Invalid order received (table must be int): {"food": "burger", "table": "not an int"}
+2025-10-26 16:31:41 [ERROR] Invalid order received (food must be non-empty string): {"food": "  ", "table": 4}
+2025-10-26 16:31:41 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:31:41 [ERROR] Failed to schedule order handling: asyncio.run() cannot be called from a running event loop
+2025-10-26 16:31:41 [MQTT] Connected to localhost:9001 (rc=0)
+2025-10-26 16:31:54 [ORDER] Order received: pizza for table 5
+2025-10-26 16:31:54 [ORDER] Preparing pizza for table 5 (will take 0.1s)
+2025-10-26 16:31:54 [ORDER] Delivered pizza to table 5
+2025-10-26 16:31:54 [ERROR] Invalid order received: {"food": "", "table": 3}
+2025-10-26 16:31:54 [ERROR] Invalid order received: not a json
+2025-10-26 16:31:54 [ERROR] Invalid order received: {"food": "burger"}
+2025-10-26 16:31:54 [ERROR] Invalid order received (table must be int): {"food": "burger", "table": "not an int"}
+2025-10-26 16:31:54 [ERROR] Invalid order received (food must be non-empty string): {"food": "  ", "table": 4}
+2025-10-26 16:31:54 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:31:54 [ERROR] Failed to schedule order handling: asyncio.run() cannot be called from a running event loop
+2025-10-26 16:31:54 [MQTT] Connected to localhost:9001 (rc=0)
+2025-10-26 16:32:38 [ORDER] Order received: pizza for table 5
+2025-10-26 16:32:38 [ORDER] Preparing pizza for table 5 (will take 0.1s)
+2025-10-26 16:32:38 [ORDER] Delivered pizza to table 5
+2025-10-26 16:32:38 [ERROR] Invalid order received: {"food": "", "table": 3}
+2025-10-26 16:32:38 [ERROR] Invalid order received: not a json
+2025-10-26 16:32:38 [ERROR] Invalid order received: {"food": "burger"}
+2025-10-26 16:32:38 [ERROR] Invalid order received (table must be int): {"food": "burger", "table": "not an int"}
+2025-10-26 16:32:38 [ERROR] Invalid order received (food must be non-empty string): {"food": "  ", "table": 4}
+2025-10-26 16:32:38 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:32:38 [ORDER] Order received: pizza for table 3
+2025-10-26 16:32:38 [ORDER] Preparing pizza for table 3 (will take 3.8s)
+2025-10-26 16:32:42 [ORDER] Delivered pizza to table 3
+2025-10-26 16:32:42 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:32:42 [ORDER] Order received: pizza for table 3
+2025-10-26 16:32:42 [ORDER] Preparing pizza for table 3 (will take 4.7s)
+2025-10-26 16:32:46 [ORDER] Delivered pizza to table 3
+2025-10-26 16:32:46 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:32:46 [ORDER] Order received: pizza for table 3
+2025-10-26 16:32:46 [ORDER] Preparing pizza for table 3 (will take 9.6s)
+2025-10-26 16:32:56 [ORDER] Delivered pizza to table 3
+2025-10-26 16:32:56 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:32:56 [ORDER] Order received: pizza for table 3
+2025-10-26 16:32:56 [ORDER] Preparing pizza for table 3 (will take 5.7s)
+2025-10-26 16:33:02 [ORDER] Delivered pizza to table 3
+2025-10-26 16:33:02 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:33:02 [ORDER] Order received: pizza for table 3
+2025-10-26 16:33:02 [ORDER] Preparing pizza for table 3 (will take 8.3s)
+2025-10-26 16:33:10 [ORDER] Delivered pizza to table 3
+2025-10-26 16:33:10 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:33:10 [ORDER] Order received: pizza for table 3
+2025-10-26 16:33:10 [ORDER] Preparing pizza for table 3 (will take 3.7s)
+2025-10-26 16:33:14 [ORDER] Delivered pizza to table 3
+2025-10-26 16:33:14 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:33:14 [ORDER] Order received: pizza for table 3
+2025-10-26 16:33:14 [ORDER] Preparing pizza for table 3 (will take 9.3s)
+2025-10-26 16:33:23 [ORDER] Delivered pizza to table 3
+2025-10-26 16:33:23 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:33:23 [ORDER] Order received: pizza for table 3
+2025-10-26 16:33:23 [ORDER] Preparing pizza for table 3 (will take 6.8s)
+2025-10-26 16:33:30 [ORDER] Delivered pizza to table 3
+2025-10-26 16:33:30 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:33:30 [ORDER] Order received: pizza for table 3
+2025-10-26 16:33:30 [ORDER] Preparing pizza for table 3 (will take 7.4s)
+2025-10-26 16:33:37 [ORDER] Delivered pizza to table 3
+2025-10-26 16:33:37 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:33:37 [ORDER] Order received: pizza for table 3
+2025-10-26 16:33:37 [ORDER] Preparing pizza for table 3 (will take 4.8s)
+2025-10-26 16:33:42 [ORDER] Delivered pizza to table 3
+2025-10-26 16:33:42 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:33:42 [ORDER] Order received: pizza for table 3
+2025-10-26 16:33:42 [ORDER] Preparing pizza for table 3 (will take 3.8s)
+2025-10-26 16:33:46 [ORDER] Delivered pizza to table 3
+2025-10-26 16:33:46 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:33:46 [ORDER] Order received: pizza for table 3
+2025-10-26 16:33:46 [ORDER] Preparing pizza for table 3 (will take 4.4s)
+2025-10-26 16:33:50 [ORDER] Delivered pizza to table 3
+2025-10-26 16:33:50 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:33:50 [ORDER] Order received: pizza for table 3
+2025-10-26 16:33:50 [ORDER] Preparing pizza for table 3 (will take 6.0s)
+2025-10-26 16:33:56 [ORDER] Delivered pizza to table 3
+2025-10-26 16:33:56 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:33:56 [ORDER] Order received: pizza for table 3
+2025-10-26 16:33:56 [ORDER] Preparing pizza for table 3 (will take 7.4s)
+2025-10-26 16:34:04 [ORDER] Delivered pizza to table 3
+2025-10-26 16:34:04 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:34:04 [ORDER] Order received: pizza for table 3
+2025-10-26 16:34:04 [ORDER] Preparing pizza for table 3 (will take 6.4s)
+2025-10-26 16:34:10 [ORDER] Delivered pizza to table 3
+2025-10-26 16:34:10 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:34:10 [ORDER] Order received: pizza for table 3
+2025-10-26 16:34:10 [ORDER] Preparing pizza for table 3 (will take 4.3s)
+2025-10-26 16:34:14 [ORDER] Delivered pizza to table 3
+2025-10-26 16:34:14 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:34:14 [ORDER] Order received: pizza for table 3
+2025-10-26 16:34:14 [ORDER] Preparing pizza for table 3 (will take 7.3s)
+2025-10-26 16:34:22 [ORDER] Delivered pizza to table 3
+2025-10-26 16:34:22 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:34:22 [ORDER] Order received: pizza for table 3
+2025-10-26 16:34:22 [ORDER] Preparing pizza for table 3 (will take 3.2s)
+2025-10-26 16:34:25 [ORDER] Delivered pizza to table 3
+2025-10-26 16:34:25 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:34:25 [ORDER] Order received: pizza for table 3
+2025-10-26 16:34:25 [ORDER] Preparing pizza for table 3 (will take 5.0s)
+2025-10-26 16:34:30 [ORDER] Delivered pizza to table 3
+2025-10-26 16:34:30 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:34:30 [ORDER] Order received: pizza for table 3
+2025-10-26 16:34:30 [ORDER] Preparing pizza for table 3 (will take 8.3s)
+2025-10-26 16:34:38 [ORDER] Delivered pizza to table 3
+2025-10-26 16:34:38 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:34:38 [ORDER] Order received: pizza for table 3
+2025-10-26 16:34:38 [ORDER] Preparing pizza for table 3 (will take 5.1s)
+2025-10-26 16:34:43 [ORDER] Delivered pizza to table 3
+2025-10-26 16:34:43 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:34:43 [ORDER] Order received: pizza for table 3
+2025-10-26 16:34:43 [ORDER] Preparing pizza for table 3 (will take 6.1s)
+2025-10-26 16:34:49 [ORDER] Delivered pizza to table 3
+2025-10-26 16:34:49 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:34:49 [ORDER] Order received: pizza for table 3
+2025-10-26 16:34:49 [ORDER] Preparing pizza for table 3 (will take 8.8s)
+2025-10-26 16:34:58 [ORDER] Delivered pizza to table 3
+2025-10-26 16:34:58 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:34:58 [ORDER] Order received: pizza for table 3
+2025-10-26 16:34:58 [ORDER] Preparing pizza for table 3 (will take 5.5s)
+2025-10-26 16:35:04 [ORDER] Delivered pizza to table 3
+2025-10-26 16:35:04 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:35:04 [ORDER] Order received: pizza for table 3
+2025-10-26 16:35:04 [ORDER] Preparing pizza for table 3 (will take 5.7s)
+2025-10-26 16:35:09 [ORDER] Delivered pizza to table 3
+2025-10-26 16:35:09 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:35:09 [ORDER] Order received: pizza for table 3
+2025-10-26 16:35:09 [ORDER] Preparing pizza for table 3 (will take 4.6s)
+2025-10-26 16:35:14 [ORDER] Delivered pizza to table 3
+2025-10-26 16:35:14 [MQTT] Received -> topic: ORDER | payload: {"food":"pizza","table":3}
+2025-10-26 16:35:14 [ORDER] Order received: pizza for table 3
+2025-10-26 16:35:14 [ORDER] Preparing pizza for table 3 (will take 7.1s)
+2025-10-26 16:35:16 [ORDER] Order received: pizza for table 5
+2025-10-26 16:35:16 [ORDER] Preparing pizza for table 5 (will take 0.1s)
+2025-10-26 16:35:16 [ORDER] Delivered pizza to table 5
+2025-10-26 16:35:16 [ERROR] Invalid order received: {"food": "", "table": 3}
+2025-10-26 16:35:16 [ERROR] Invalid order received: not a json
+2025-10-26 16:35:16 [ERROR] Invalid order received: {"food": "burger"}
+2025-10-26 16:35:16 [ERROR] Invalid order received (table must be int): {"food": "burger", "table": "not an int"}
+2025-10-26 16:35:16 [ERROR] Invalid order received (food must be non-empty string): {"food": "  ", "table": 4}
+2025-10-26 16:35:16 [MQTT] Connected to localhost:9001 (rc=0)
+2025-10-26 18:22:24 [MQTT] Received -> topic: ORDER | payload: {"food":"Pizza","table":1}
+2025-10-26 18:22:24 [ORDER] Order received: Pizza for table 1
+2025-10-26 18:22:24 [ORDER] Preparing Pizza for table 1 (will take 5.8s)
+2025-10-26 18:22:30 [ORDER] Delivered Pizza to table 1
